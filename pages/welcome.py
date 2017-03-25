@@ -15,6 +15,7 @@ class WelcomeWindow(window_manager.Frame):
     def __init__(self, parent, controller):
         window_manager.Frame.__init__(self, parent)
         self.config(background="green")
+        self.grid(row=0, column=0, sticky="nsew")
         self.controller = controller
         self.pages = {}
         self.variable = window_manager.IntVar()
@@ -26,12 +27,14 @@ class WelcomeWindow(window_manager.Frame):
                                                           value=2,
                                                           variable=self.variable, indicatoron=1)
 
-        self.remove_word_option = window_manager.Radiobutton(self, text=REMOVE_WORD_OPTION,
+        self.modify_word_option = window_manager.Radiobutton(self, text=MODIFY_WORD_OPTION,
                                                              value=3,
                                                              variable=self.variable, indicatoron=1)
-        self.modify_word_option = window_manager.Radiobutton(self, text=MODIFY_WORD_OPTION,
+
+        self.remove_word_option = window_manager.Radiobutton(self, text=REMOVE_WORD_OPTION,
                                                              value=4,
                                                              variable=self.variable, indicatoron=1)
+
         self.setup_check_boxes()
         self.variable.set(1)
 
@@ -43,6 +46,8 @@ class WelcomeWindow(window_manager.Frame):
         self.setup_buttons()
         self.pages[1] = app_util.get_translate_page()
         self.pages[2] = app_util.get_add_word_page()
+        self.pages[3] = app_util.get_modify_word_page()
+        self.pages[4] = app_util.get_remove_word_page()
 
     def setup_logo(self):
         rendered_logo = ImageTk.PhotoImage(Image.open(RESOURCE_PATH + "zoom_logo.jpg").resize((96, 96)))

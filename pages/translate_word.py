@@ -10,16 +10,14 @@ class TranslatePage(window_manager.Frame):
     def __init__(self, parent, controller):
         window_manager.Frame.__init__(self, parent)
         self.config(background="green")
+        self.grid(row=0, column=0, sticky="nsew")
         self.text_watcher = window_manager.StringVar()
         self.input_edit_field = window_manager.Text(self, width=48, height=8, wrap=window_manager.WORD)
         self.result_value = window_manager.Label(self, width=48, height=8, textvariable=self.text_watcher)
         self.setup_page()
         self.controller = controller
 
-        self.database = app_util.get_database()
-        self.cursor = self.database.cursor()
         self.letter_map = {}
-        self.setup_map()
 
     def setup_page(self):
         self.setup_label()
@@ -45,10 +43,14 @@ class TranslatePage(window_manager.Frame):
         scrollbar = window_manager.Scrollbar(self.result_value)
         # scrollbar.pack(side=window_manager.RIGHT)
 
+    def go_back(self):
+        self.controller.show_window(app_util.get_welcome_page())
+
+
     def setup_buttons(self):
         back_button = window_manager.Button(self, text=BUTTON_BACK_TEXT)
         back_button.config(background="grey", foreground="white")
-        back_button.config(command=lambda: self.controller.show_window(app_util.get_welcome_page()))
+        back_button.config(command=lambda: self.go_back())
         back_button.grid(row=2, column=0, sticky="ws", padx=8, pady=16)
 
         submit_button = window_manager.Button(self, text=BUTTON_SUBMIT_TEXT)
@@ -61,6 +63,7 @@ class TranslatePage(window_manager.Frame):
         self.text_watcher.set(self.translate(user_input))
 
     def translate(self, user_input):
+        self.setup_map()
         next_letter = ""
         after_next_letter = ""
         result = ""
@@ -148,9 +151,11 @@ class TranslatePage(window_manager.Frame):
             return result
 
     def setup_map(self):
-        self.cursor.execute(SELECT_EVERYTHING)
-        for key, value in self.cursor.fetchall():
+        database = app_util.get_database()
+        cursor = database.cursor()
+        cursor.execute(SELECT_EVERYTHING)
+        for key, value in cursor.fetchall():
             self.letter_map[key] = value
 
         print(self.letter_map)
-        self.database.close()
+        database.close()

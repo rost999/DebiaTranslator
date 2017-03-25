@@ -13,10 +13,10 @@ class DebiaTranslatorApp(WindowFramework.Tk):
         self.frames = {}
         self.geometry("480x300")
 
-        for page in (get_welcome_page(), get_translate_page(), get_add_word_page()):
+        for page in (get_welcome_page(), get_translate_page(),
+                     get_add_word_page(), get_modify_word_page(), get_remove_word_page()):
             frame = page(container, self)
             self.frames[page] = frame
-            frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_window(get_welcome_page())
 
