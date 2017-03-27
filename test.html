@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<title>Translate</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<h1>Translate</h1>
+		<textarea id="inputtext" cols="50" rows="10" ></textarea>
+		<textarea id="inputtext2" cols="50" rows="10" ></textarea>
+	</body>
+	   <div>
+		<a href="javascript:return 0" onclick="changeTextareaValue()">Change Textarea Value</a>
+   </div>
+   <script type="text/javascript">
+	
+	function changeTextareaValue(){
+		var newValue = jQuery("#inputtext").val();
+		jQuery("#inputtext2").val(newValue);
+	}
+</script>
+</html>
